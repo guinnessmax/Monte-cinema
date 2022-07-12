@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto+Mono:wght@400;500;700&display=swap" rel="stylesheet" />
+        <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" />
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link href="https://fonts.googleapis.com/css2?family=Eczar:wght@600&family=Roboto+Mono:wght@500&display=swap" rel="stylesheet" />
+        <link rel="stylesheet" href="./styles.css" />
+        <title>Monte Cinema</title>
+    </head>
+    <body>
+        <div class="header">
+            <img src="./img/logo.svg" alt="Monte cinema" />
+            <p class="developedWith">Developed with <span class="icon">♥️</span> by Monterail</p>
+        </div>
+        <div class="wrapper">
+            <div class="container">
+                <h1>Great!<span class="newLineTitle">Now your name</span></h1>
+                <div class="form" id="form">
+                    <form action="./registerSuccess.html">
+                        <div class="inputContainer">
+                            <label for="firstName">First name</label>
+                            <input id="firstName" name="firstName" type="text" placeholder="e.g. Jessica" required="" />
+                        </div>
+                        <div class="inputContainer">
+                            <label for="lastName">Last name</label>
+                            <input id="lastName" name="lastName" type="text" placeholder="e.g Walton" required="" />
+                        </div>
+                        <div class="inputContainer">
+                            <label for="lastName">Date of birth</label>
+                            <input
+                                id="birthDate"
+                                name="birthDate"
+                                type="date"
+                                placeholder="DD / MM / YYYY"
+                                required=""
+                                onkeydown="onKeyDownDate(this, event)"
+                                onchange="onDateInputChange(this.value)"
+                                />
+                            <p class="yearsValidation" id="yearsValidation">You should be minium 18 years old</p>
+                        </div>
+                        <div class="inputContainer">
+                            <input type="checkbox" id="vehicle1" name="vehicle1" value="Bike" required>
+                            <span class="privacyPolicy">I accept <a href="#">Privacy Policy</a></span>
+                        </div>
+                        <div class="buttonsContainer">
+                            <a href="#">
+                                <button type="button" value="submit" class="noBackgroundButton">
+                                    Log in instead
+                                </button>
+                            </a>
+                              <button type="submit" value="submit" class="redButton">
+                                Register
+                              </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </body>
+    <script>
+        const form = document.getElementById('form');
+        form.addEventListener('submit', (event) => {
+            const birthDate = document.getElementById('birthDate').value;
+            const isAgeValid = checkIsAgeValid(birthDate);
+            const firstName = document.getElementById('firstName').value;
+            
+            if (!isAgeValid) event.preventDefault();
+            localStorage.setItem('firstName', firstName);
+        });
+
+        function onKeyDownDate(elem, event) {
+            event.preventDefault();
+        }
+
+        function checkIsAgeValid(value) {
+            const dateOfBirth = new Date(value);
+            const diff = Date.now() - dateOfBirth.getTime();
+            const ageDate = new Date(diff);
+            const age = Math.abs(ageDate.getUTCFullYear() - 1970);
+
+            return age >= 18;
+        }
+
+        function onDateInputChange(value) {
+            const isAgeValid = checkIsAgeValid(value);
+            const elemAgeValidation = document.getElementById('yearsValidation');
+
+            if (isAgeValid) {
+                elemAgeValidation.classList.add("greenText");
+                elemAgeValidation.classList.remove("redText");
+            } else {
+                elemAgeValidation.classList.add("redText");                
+            }
+        }
+    </script>
+</html>
